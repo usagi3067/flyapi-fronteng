@@ -1,4 +1,4 @@
-import { listTopInvokeInterfaceInfoUsingGET } from '@/services/yuapi-backend/analysisController';
+import { listTopInvokeInterfaceInfoUsingGET } from '@/services/flyapi-backend/analysisController';
 import { PageContainer } from '@ant-design/pro-components';
 import '@umijs/max';
 import ReactECharts from 'echarts-for-react';

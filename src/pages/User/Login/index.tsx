@@ -19,7 +19,7 @@ import { Alert, message, Tabs } from 'antd';
 import React, { useState } from 'react';
 import { flushSync } from 'react-dom';
 import styles from './index.less';
-import { userLoginUsingPOST } from '@/services/yuapi-backend/userController';
+import { userLoginUsingPOST } from '@/services/flyapi-backend/userController';
 
 const LoginMessage: React.FC<{
   content: string;
@@ -65,7 +65,7 @@ const Login: React.FC = () => {
       <div className={styles.content}>
         <LoginForm
           logo={<img alt="logo" src="/logo.svg" />}
-          title="鱼皮接口"
+          title="鸿鹄接口"
           subTitle={'API 开放平台'}
           initialValues={{
             autoLogin: true,

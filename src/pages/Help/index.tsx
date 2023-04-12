@@ -10,8 +10,8 @@ const NewMenu: React.FC = () => {
   const markdownContent = `
 \`\`\`xml
 <dependency>
-    <groupId>com.yupi</groupId>
-    <artifactId>yuapi-client-sdk</artifactId>
+    <groupId>com.dango</groupId>
+    <artifactId>flyapi-client-sdk</artifactId>
     <version>0.0.1</version>
 </dependency>
 \`\`\`

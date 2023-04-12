@@ -4,7 +4,7 @@ import {Button, Card, Descriptions, Form, message, Input, Spin, Divider} from 'a
 import {
   getInterfaceInfoByIdUsingGET,
   invokeInterfaceInfoUsingPOST,
-} from '@/services/yuapi-backend/interfaceInfoController';
+} from '@/services/flyapi-backend/interfaceInfoController';
 import { useParams } from '@@/exports';
 
 /**
