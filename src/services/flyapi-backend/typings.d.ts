@@ -549,6 +549,12 @@ declare namespace API {
     userPassword?: string;
   };
 
+    type UserRegisterRequest = {
+    userAccount?: string;
+    userPassword?: string;
+    checkPassword?: string;
+  };
+
   type UserRegisterRequest = {
     checkPassword?: string;
     userAccount?: string;

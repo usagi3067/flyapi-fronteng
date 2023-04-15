@@ -82,7 +82,7 @@ export async function listInterfaceInfoByPageUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.listInterfaceInfoByPageUsingGETParams,
   options?: { [key: string]: any },
-) {
+) {    //request 发送了ajax请求， 异步调用， 调用了 这个
   return request<API.BaseResponsePageInterfaceInfo>('/api/interfaceInfo/list/page', {
     method: 'GET',
     params: {

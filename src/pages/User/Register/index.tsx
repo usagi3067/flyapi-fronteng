@@ -1,6 +1,5 @@
 import Footer from '@/components/Footer';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
-import {Link} from "umi"
 import {
   AlipayCircleOutlined,
   LockOutlined,
@@ -16,46 +15,42 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import { history, useModel } from '@umijs/max';
-import {Alert, Col, Divider, message, Space, Tabs} from 'antd';
+import { Alert, message, Tabs } from 'antd';
 import React, { useState } from 'react';
 import { flushSync } from 'react-dom';
 import styles from './index.less';
-import { userLoginUsingPOST } from '@/services/flyapi-backend/userController';
+import {userLoginUsingPOST, userRegisterUsingPOST} from '@/services/flyapi-backend/userController';
 
-const LoginMessage: React.FC<{
-  content: string;
-}> = ({ content }) => {
-  return (
-    <Alert
-      style={{
-        marginBottom: 24,
-      }}
-      message={content}
-      type="error"
-      showIcon
-    />
-  );
-};
-const Login: React.FC = () => {
+
+const Register: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const [type, setType] = useState<string>('account');
-  const { initialState, setInitialState } = useModel('@@initialState');
-  const handleSubmit = async (values: API.UserLoginRequest) => {
+
+
+  const handleSubmit = async (values: API.UserRegisterRequest) => {
+
+    const {userAccount, userPassword, checkPassword} = values;
+    if (userPassword !== checkPassword) {
+      message.error("再次输入的密码不一致");
+      return;
+    }
+
     try {
-      // 登录
-      const res = await userLoginUsingPOST({
-        ...values,
+      // 注册
+
+      const res = await userRegisterUsingPOST({
+        ...values
       });
-      if (res.data) {
-        const urlParams = new URL(window.location.href).searchParams;
-        history.push(urlParams.get('redirect') || '/');
-        setInitialState({
-          loginUser: res.data
-        });
-        return;
+
+      if (res.data && res.data > 0) {
+        const defaultRegisterSuccessMessage = '注册成功';
+        message.success(defaultRegisterSuccessMessage);
+        history.push('/user/login');
+      } else {
+        throw new Error(`register error id = ${res.data}`);
       }
     } catch (error) {
-      const defaultLoginFailureMessage = '登录失败，请重试！';
+      const defaultLoginFailureMessage = '注册失败，请重试！';
       console.log(error);
       message.error(defaultLoginFailureMessage);
     }
@@ -65,6 +60,11 @@ const Login: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         <LoginForm
+          submitter={{
+            searchConfig: {
+              submitText: '注册'
+            }
+          }}
           logo={<img alt="logo" src="/logo.svg" />}
           title="鸿鹄接口"
           subTitle={'API 开放平台'}
@@ -72,13 +72,13 @@ const Login: React.FC = () => {
             autoLogin: true,
           }}
           actions={[
-            '其他登录方式 :',
+            '其他注册方式 :',
             <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
             <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />,
             <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
           ]}
           onFinish={async (values) => {
-            await handleSubmit(values as API.UserLoginRequest);
+            await handleSubmit(values as API.UserRegisterRequest);
           }}
         >
           <Tabs
@@ -88,14 +88,11 @@ const Login: React.FC = () => {
             items={[
               {
                 key: 'account',
-                label: '账户密码登录',
+                label: '账户密码注册',
               },
             ]}
           />
 
-          {status === 'error' && loginType === 'account' && (
-            <LoginMessage content={'错误的用户名和密码(admin/ant.design)'} />
-          )}
           {type === 'account' && (
             <>
               <ProFormText
@@ -104,12 +101,17 @@ const Login: React.FC = () => {
                   size: 'large',
                   prefix: <UserOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder={'用户名: admin or user'}
+                placeholder={'用户名: 请输入账号'}
                 rules={[
                   {
                     required: true,
                     message: '用户名是必填项！',
                   },
+                  {
+                    min: 4,
+                    type: 'string',
+                    message: '账号位数不能小于4'
+                  }
                 ]}
               />
               <ProFormText.Password
@@ -118,12 +120,36 @@ const Login: React.FC = () => {
                   size: 'large',
                   prefix: <LockOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder={'密码: ant.design'}
+                placeholder={'密码: 请输入密码'}
                 rules={[
                   {
                     required: true,
                     message: '密码是必填项！',
                   },
+                  {
+                    min: 8,
+                    type: 'string',
+                    message: '账号位数不能小于8'
+                  }
+                ]}
+              />
+              <ProFormText.Password
+                name="checkPassword"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <LockOutlined className={styles.prefixIcon} />,
+                }}
+                placeholder={'密码: 再次输入密码'}
+                rules={[
+                  {
+                    required: true,
+                    message: '确认密码是必填项！',
+                  },
+                  {
+                    min: 4,
+                    type: 'string',
+                    message: '账号位数不能小于8'
+                  }
                 ]}
               />
             </>
@@ -186,18 +212,9 @@ const Login: React.FC = () => {
           )}
           <div
             style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginBottom: 24
+              marginBottom: 24,
             }}
           >
-
-            <ProFormCheckbox noStyle name="autoLogin">
-              自动登录
-            </ProFormCheckbox>
-
-            <Divider type="vertical"/>
-            <Link to="/user/register">新用户注册</Link>
           </div>
         </LoginForm>
       </div>
@@ -205,4 +222,4 @@ const Login: React.FC = () => {
     </div>
   );
 };
-export default Login;
+export default Register;

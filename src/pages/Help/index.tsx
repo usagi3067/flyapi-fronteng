@@ -3,8 +3,7 @@ import { Typography } from 'antd';
 import React from 'react';
 // import ReactDOM from 'react-dom'
 import ReactMarkdown from 'react-markdown'
-import rehypeHighlight from 'rehype-highlight'
-const { Title, Paragraph, Text, Link } = Typography;
+const { Title, Paragraph} = Typography;
 
 const NewMenu: React.FC = () => {
   const markdownContent = `
