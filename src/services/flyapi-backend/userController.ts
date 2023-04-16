@@ -14,6 +14,14 @@ export async function addUserUsingPOST(body: API.UserAddRequest, options?: { [ke
   });
 }
 
+/** changeLoginUserAKSK GET /api/user/change/aksk */
+export async function changeLoginUserAKSKUsingGET(options?: { [key: string]: any }) {
+  return request<API.BaseResponseUserAKSKVO>('/api/user/change/aksk', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
 /** deleteUser POST /api/user/delete */
 export async function deleteUserUsingPOST(
   body: API.DeleteRequest,

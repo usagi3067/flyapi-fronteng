@@ -3,10 +3,16 @@ import { ProDescriptions } from '@ant-design/pro-components';
 import { Button } from 'antd';
 import { useRef } from 'react';
 import {useModel} from "@@/exports";
-import {getLoginUserAKSKUsingGET} from "@/services/flyapi-backend/userController";
+import {changeLoginUserAKSKUsingGET, getLoginUserAKSKUsingGET} from "@/services/flyapi-backend/userController";
 
 export default () => {
   const actionRef = useRef<ProDescriptionsActionType>();
+
+  const actionReset = async() => {
+    console.log('reset');
+    await changeLoginUserAKSKUsingGET();
+    actionRef.current?.reload();
+  }
   return (
     <ProDescriptions
       actionRef={actionRef}
@@ -43,7 +49,7 @@ export default () => {
         >
           刷新
         </Button>
-        <Button key="rest">重置</Button>
+        <Button key="rest" onClick={actionReset}>重置</Button>
       </ProDescriptions.Item>
     </ProDescriptions>
   );
