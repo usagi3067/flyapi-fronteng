@@ -26,6 +26,17 @@ export default [
     ],
   },
 
+  {
+    path: '/account',
+    name: '用户',
+    icon: 'crown',
+    access: 'canUser',
+    routes: [
+      {name: '个人中心', icon: 'table', path: '/account/center', component: './Account/Center'},
+      {name: '个人设置', icon: 'table', path: '/account/setting', component: './Account/Setting'},
+    ],
+  },
+
   // { path: '/', redirect: '/welcome' },
   {path: '*', layout: false, component: './404'},
 ];

@@ -89,6 +89,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseUserAKSKVO = {
+    code?: number;
+    data?: UserAKSKVO;
+    message?: string;
+  };
+
   type BaseResponseUserInterfaceInfo = {
     code?: number;
     data?: UserInterfaceInfo;
@@ -518,6 +524,11 @@ declare namespace API {
     userRole?: string;
   };
 
+  type UserAKSKVO = {
+    accessKey?: string;
+    secretKey?: string;
+  };
+
   type UserInterfaceInfo = {
     createTime?: string;
     id?: number;
@@ -547,12 +558,6 @@ declare namespace API {
   type UserLoginRequest = {
     userAccount?: string;
     userPassword?: string;
-  };
-
-    type UserRegisterRequest = {
-    userAccount?: string;
-    userPassword?: string;
-    checkPassword?: string;
   };
 
   type UserRegisterRequest = {

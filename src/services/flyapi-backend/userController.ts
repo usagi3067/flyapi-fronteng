@@ -44,6 +44,14 @@ export async function getUserByIdUsingGET(
   });
 }
 
+/** getLoginUserAKSK GET /api/user/get/aksk */
+export async function getLoginUserAKSKUsingGET(options?: { [key: string]: any }) {
+  return request<API.BaseResponseUserAKSKVO>('/api/user/get/aksk', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
 /** getLoginUser GET /api/user/get/login */
 export async function getLoginUserUsingGET(options?: { [key: string]: any }) {
   return request<API.BaseResponseUserVO>('/api/user/get/login', {
