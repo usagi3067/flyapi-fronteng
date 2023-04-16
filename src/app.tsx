@@ -1,51 +1,65 @@
 import Footer from '@/components/Footer';
-import RightContent from '@/components/RightContent';
+import { Question } from '@/components/RightContent';
 import { LinkOutlined } from '@ant-design/icons';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history, Link } from '@umijs/max';
 import { requestConfig } from './requestConfig';
+import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import {getLoginUserUsingGET} from "@/services/flyapi-backend/userController";
-
+import {AvatarDropdown, AvatarName} from './components/RightContent/AvatarDropdown';
+import defaultSettings from '../config/defaultSettings';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
-export async function getInitialState(): Promise<InitialState> {
+export async function getInitialState(): Promise<{
+  settings?: Partial<LayoutSettings>;
+  loginUser?: API.UserVO;
+}> {
   // 当页面首次加载时，获取要全局保存的数据，比如用户登录信息
   const state: InitialState = {
     loginUser: undefined,
   }
+  let loginUser = undefined;
   try {
     const res = await getLoginUserUsingGET();
     if (res.data) {
       state.loginUser = res.data;
     }
+    loginUser = state.loginUser;
   } catch (error) {
     history.push(loginPath);
   }
-  return state;
+  return {
+    loginUser,
+    settings: defaultSettings as Partial<LayoutSettings>,
+  }
 }
+
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
-    layout: "top",
-    rightContentRender: () => <RightContent />,
+    // actionsRender: () => [<Question key="doc" />],
+    avatarProps: {
+      src: initialState?.loginUser?.userAvatar,
+      title: <AvatarName />,
+      render: (_, avatarChildren) => {
+        return <AvatarDropdown menu>{avatarChildren}</AvatarDropdown>;
+      },
+    },
     waterMarkProps: {
       content: initialState?.loginUser?.userName,
     },
     footerRender: () => <Footer />,
     onPageChange: () => {
+
       const { location } = history;
       // 如果没有登录，重定向到 login
-      const whiteList = ['/user/register', loginPath];
-      if (whiteList.includes(location.pathname)) {
-        return;
-      }
-      if (!initialState?.loginUser) {
+      if (!initialState?.loginUser && location.pathname !== loginPath) {
         history.push(loginPath);
       }
     },
@@ -71,34 +85,32 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     ],
     links: isDev
       ? [
-          <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
-            <LinkOutlined />
-            <span>OpenAPI 文档</span>
-          </Link>,
-        ]
+        <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
+          <LinkOutlined />
+          <span>OpenAPI 文档</span>
+        </Link>,
+      ]
       : [],
     menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态
-    childrenRender: (children, props) => {
+    childrenRender: (children) => {
       // if (initialState?.loading) return <PageLoading />;
       return (
         <>
           {children}
-          {!props.location?.pathname?.includes('/login') && (
-            <SettingDrawer
-              disableUrlParams
-              enableDarkTheme
-              settings={initialState?.settings}
-              onSettingChange={(settings) => {
-                setInitialState((preInitialState) => ({
-                  ...preInitialState,
-                  settings,
-                }));
-              }}
-            />
-          )}
+          <SettingDrawer
+            disableUrlParams
+            enableDarkTheme
+            settings={initialState?.settings}
+            onSettingChange={(settings) => {
+              setInitialState((preInitialState) => ({
+                ...preInitialState,
+                settings,
+              }));
+            }}
+          />
         </>
       );
     },

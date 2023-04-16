@@ -15,7 +15,13 @@ export type GlobalHeaderRightProps = {
   menu?: boolean;
 };
 
-const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
+export const AvatarName = () => {
+  const { initialState } = useModel('@@initialState');
+  const { loginUser } = initialState || {};
+  return <span className="anticon">{loginUser?.userName}</span>;
+};
+
+export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   /**
    * 退出登录，并且将当前的 url 保存
    */
@@ -42,9 +48,10 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
       const { key } = event;
       if (key === 'logout') {
         flushSync(() => {
-          setInitialState((s) => ({ ...s, currentUser: undefined }));
+          setInitialState((s) => ({ ...s, loginUser: undefined }));
         });
         userLogoutUsingPOST();
+        history.push('/user/login');
         return;
       }
       history.push(`/account/${key}`);
@@ -68,9 +75,10 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     return loading;
   }
 
-  const { currentUser } = initialState;
+  const { loginUser } = initialState;
+  console.log("loginUser:", loginUser);
 
-  if (!currentUser || !currentUser.name) {
+  if (!loginUser || !loginUser.userName) {
     return loading;
   }
 
@@ -106,11 +114,9 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
-        <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
-        <span className={`${styles.name} anticon`}>{currentUser.name}</span>
+        <Avatar size="small" className={styles.avatar} src={loginUser.userAvatar} alt="avatar" />
+        <span className={`${styles.name} anticon`}>{loginUser.userName}</span>
       </span>
     </HeaderDropdown>
   );
 };
-
-export default AvatarDropdown;

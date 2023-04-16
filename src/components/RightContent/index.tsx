@@ -3,7 +3,7 @@ import { useModel } from '@umijs/max';
 import { Space } from 'antd';
 import React from 'react';
 import HeaderSearch from '../HeaderSearch';
-import Avatar from './AvatarDropdown';
+import {AvatarDropdown} from './AvatarDropdown';
 import styles from './index.less';
 export type SiderTheme = 'light' | 'dark';
 const GlobalHeaderRight: React.FC = () => {
@@ -52,8 +52,26 @@ const GlobalHeaderRight: React.FC = () => {
       >
         <QuestionCircleOutlined />
       </span>
-      <Avatar />
+      <AvatarDropdown menu/>
     </Space>
   );
 };
+
+
+export const Question = () => {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        height: 26,
+      }}
+      onClick={() => {
+        window.open('https://pro.ant.design/docs/getting-started');
+      }}
+    >
+      <QuestionCircleOutlined />
+    </div>
+  );
+};
+
 export default GlobalHeaderRight;

@@ -45,7 +45,7 @@ const Register: React.FC = () => {
       if (res.data && res.data > 0) {
         const defaultRegisterSuccessMessage = '注册成功';
         message.success(defaultRegisterSuccessMessage);
-        history.push('/user/login');
+        history.push('/user/login' + "?redirect=/");
       } else {
         throw new Error(`register error id = ${res.data}`);
       }

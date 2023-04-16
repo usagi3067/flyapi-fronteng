@@ -12,7 +12,7 @@ export default [
   {
     path: '/help',
     name: '帮助文档',
-    icon: 'smile',
+    icon: 'crown',
     component: './Help'
   },
   {

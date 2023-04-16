@@ -18,7 +18,7 @@ const NewMenu: React.FC = () => {
 
   return (
     <PageContainer title="帮助文档">
-      <Title>2134</Title>
+      <Title>首页</Title>
       <Paragraph>
         主页菜单下可查看开放平台下所有的接口， 点击任一接口可查看详情， 支持在线调试，
         接口详情下有在线调试示例（可复制在线调试）， 用户可以使用json格式工具搭配使用
