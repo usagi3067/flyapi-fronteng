@@ -17,6 +17,21 @@ export async function addUserInterfaceInfoUsingPOST(
   });
 }
 
+/** addUserInterfaceInfoCount POST /api/userInterfaceInfo/addCount */
+export async function addUserInterfaceInfoCountUsingPOST(
+  body: API.AddUserInterfaceInfoCountVO,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseboolean>('/api/userInterfaceInfo/addCount', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** deleteUserInterfaceInfo POST /api/userInterfaceInfo/delete */
 export async function deleteUserInterfaceInfoUsingPOST(
   body: API.DeleteRequest,

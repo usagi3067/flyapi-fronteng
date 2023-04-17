@@ -1,4 +1,9 @@
 declare namespace API {
+  type AddUserInterfaceInfoCountVO = {
+    count?: number;
+    interfaceInfoId?: number;
+  };
+
   type BaseResponseboolean = {
     code?: number;
     data?: boolean;
@@ -8,6 +13,12 @@ declare namespace API {
   type BaseResponseInterfaceInfo = {
     code?: number;
     data?: InterfaceInfo;
+    message?: string;
+  };
+
+  type BaseResponseInterfaceInfoInvokeVO = {
+    code?: number;
+    data?: InterfaceInfoInvokeVO;
     message?: string;
   };
 
@@ -111,6 +122,11 @@ declare namespace API {
     id?: number;
   };
 
+  type getInterfaceInfoByIdUsingGET1Params = {
+    /** id */
+    id?: number;
+  };
+
   type getInterfaceInfoByIdUsingGETParams = {
     /** id */
     id?: number;
@@ -164,6 +180,22 @@ declare namespace API {
   type InterfaceInfoInvokeRequest = {
     id?: number;
     userRequestParams?: string;
+  };
+
+  type InterfaceInfoInvokeVO = {
+    createTime?: string;
+    description?: string;
+    id?: number;
+    leftNum?: number;
+    method?: string;
+    name?: string;
+    requestHeader?: string;
+    requestParams?: string;
+    responseHeader?: string;
+    status?: number;
+    updateTime?: string;
+    url?: string;
+    userId?: number;
   };
 
   type InterfaceInfoUpdateRequest = {
