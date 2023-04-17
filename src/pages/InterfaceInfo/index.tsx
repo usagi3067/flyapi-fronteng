@@ -6,11 +6,17 @@ import {
   invokeInterfaceInfoUsingPOST,
 } from '@/services/flyapi-backend/interfaceInfoController';
 import { useParams } from '@@/exports';
+import ReactJson from "react-json-view";
+
+
 
 /**
  * 主页
  * @constructor
  */
+
+
+
 const Index: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<API.InterfaceInfo>();
@@ -51,7 +57,7 @@ const Index: React.FC = () => {
         id: params.id,
         ...values,
       });
-      setInvokeRes(res.data);
+      setInvokeRes(JSON.parse(res.data));
       message.success('请求成功');
     } catch (error: any) {
       message.error('操作失败，' + error.message);
@@ -93,10 +99,12 @@ const Index: React.FC = () => {
       </Card>
       <Divider />
       <Card title="返回结果" loading={invokeLoading}>
-        {invokeRes}
+        <ReactJson src={invokeRes}/>
       </Card>
     </PageContainer>
   );
 };
 
+
+//
 export default Index;

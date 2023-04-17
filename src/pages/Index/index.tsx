@@ -2,7 +2,7 @@ import { PageContainer } from '@ant-design/pro-components';
 import React, { useEffect, useState } from 'react';
 import { List, message } from 'antd';
 import { listInterfaceInfoByPageUsingGET } from '@/services/flyapi-backend/interfaceInfoController';
-
+import ReactJson from 'react-json-view'
 /**
  * 主页
  * @constructor
@@ -33,6 +33,7 @@ const Index: React.FC = () => {
 
   return (
     <PageContainer title="在线接口开放平台">
+
       <List
         className="my-list"
         loading={loading}
