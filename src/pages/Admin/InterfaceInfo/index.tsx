@@ -51,6 +51,7 @@ const TableList: React.FC = () => {
       hide();
       message.success('创建成功');
       handleModalVisible(false);
+      actionRef.current?.reload();
       return true;
     } catch (error: any) {
       hide();
@@ -77,6 +78,7 @@ const TableList: React.FC = () => {
       });
       hide();
       message.success('操作成功');
+      actionRef.current?.reload();
       return true;
     } catch (error: any) {
       hide();
@@ -100,6 +102,7 @@ const TableList: React.FC = () => {
       hide();
       message.success('操作成功');
       actionRef.current?.reload();
+
       return true;
     } catch (error: any) {
       hide();
@@ -137,13 +140,16 @@ const TableList: React.FC = () => {
    *
    * @param record
    */
-  const handleRemove = async (record: API.InterfaceInfo) => {
+  const handleRemove = async (record: API.InterfaceInfo[]) => {
     const hide = message.loading('正在删除');
     if (!record) return true;
     try {
-      await deleteInterfaceInfoUsingPOST({
-        id: record.id
-      });
+
+      for (let i = 0; i < record.length; i++) {
+        await deleteInterfaceInfoUsingPOST({
+          id: record[i].id
+        });
+      }
       hide();
       message.success('删除成功');
       actionRef.current?.reload();
@@ -230,6 +236,7 @@ const TableList: React.FC = () => {
         >
           修改
         </a>,
+
         record.status === 0 ? <a
           key="config"
           onClick={() => {
@@ -237,8 +244,7 @@ const TableList: React.FC = () => {
           }}
         >
           发布
-        </a> : null,
-        record.status === 1 ? <Button
+        </a> : <Button
           type="text"
           key="config"
           danger
@@ -247,7 +253,8 @@ const TableList: React.FC = () => {
           }}
         >
           下线
-        </Button> : null,
+        </Button>,
+
         <Button
           type="text"
           key="config"
@@ -267,11 +274,11 @@ const TableList: React.FC = () => {
       <ProTable<API.RuleListItem, API.PageParams>
         headerTitle={'查询表格'}
         actionRef={actionRef}
-        rowKey="key"
+        rowKey="id"
         search={{
           labelWidth: 120,
         }}
-        toolBarRender={() => [
+        toolBarRender={(s, {selectedRowKeys }) => [
           <Button
             type="primary"
             key="primary"
@@ -281,6 +288,16 @@ const TableList: React.FC = () => {
           >
             <PlusOutlined /> 新建
           </Button>,
+          selectedRowKeys && selectedRowKeys.length && (
+            <Button
+              key="3"
+              onClick={() => {
+                window.alert(selectedRowKeys.join('-'));
+              }}
+            >
+              批量删除
+            </Button>
+            ),
         ]}
         request={async (
           params,
@@ -291,6 +308,7 @@ const TableList: React.FC = () => {
             ...params,
           });
           if (res?.data) {
+            console.log("res?.data.records",res?.data.records);
             return {
               data: res?.data.records || [],
               success: true,
@@ -306,7 +324,8 @@ const TableList: React.FC = () => {
         }}
         columns={columns}
         rowSelection={{
-          onChange: (_, selectedRows) => {
+          onChange: (selectedRowKeys, selectedRows) => {
+            console.log("selectedRows", selectedRows);
             setSelectedRows(selectedRows);
           },
         }}
@@ -324,9 +343,6 @@ const TableList: React.FC = () => {
                 {selectedRowsState.length}
               </a>{' '}
               项 &nbsp;&nbsp;
-              <span>
-                服务调用次数总计 {selectedRowsState.reduce((pre, item) => pre + item.callNo!, 0)} 万
-              </span>
             </div>
           }
         >

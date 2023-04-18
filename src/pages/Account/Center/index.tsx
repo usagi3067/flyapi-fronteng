@@ -36,8 +36,8 @@ export default () => {
       }}
       extra={<Button type="link">修改</Button>}
     >
-      <ProDescriptions.Item dataIndex="accessKey" label="accessKey"/>
-      <ProDescriptions.Item dataIndex="secretKey" label="secretKey"/>
+      <ProDescriptions.Item dataIndex="accessKey" label="accessKey" span={24}/>
+      <ProDescriptions.Item dataIndex="secretKey" label="secretKey" span={24}/>
 
       <ProDescriptions.Item label="文本" valueType="option">
         <Button

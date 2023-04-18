@@ -30,3 +30,8 @@ interface InitialState {
   loginUser?: API.UserVO;
 }
 
+interface JSONContent {
+  json: any;
+  text: any;
+}
+

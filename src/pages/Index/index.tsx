@@ -1,8 +1,9 @@
-import { PageContainer } from '@ant-design/pro-components';
-import React, { useEffect, useState } from 'react';
-import { List, message } from 'antd';
-import { listInterfaceInfoByPageUsingGET } from '@/services/flyapi-backend/interfaceInfoController';
-import ReactJson from 'react-json-view'
+import {PageContainer} from '@ant-design/pro-components';
+import React, {useEffect, useState} from 'react';
+import {List, message, Space, Input} from 'antd';
+import {listInterfaceInfoByPageUsingGET} from '@/services/flyapi-backend/interfaceInfoController';
+
+const {Search} = Input;
 /**
  * 主页
  * @constructor
@@ -11,13 +12,15 @@ const Index: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [list, setList] = useState<API.InterfaceInfo[]>([]);
   const [total, setTotal] = useState<number>(0);
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
 
-  const loadData = async (current = 1, pageSize = 5) => {
+  const loadData = async (current = 1, pageSize = 5, keyword = '') => {
     setLoading(true);
     try {
       const res = await listInterfaceInfoByPageUsingGET({
         current,
         pageSize,
+        name: keyword,
       });
       setList(res?.data?.records ?? []);
       setTotal(res?.data?.total ?? 0);
@@ -26,6 +29,10 @@ const Index: React.FC = () => {
     }
     setLoading(false);
   };
+  const handleSearch = (value: string) => {
+    setSearchKeyword(value);
+    loadData(1, 5, value);
+  };
 
   useEffect(() => {
     loadData();
@@ -33,6 +40,16 @@ const Index: React.FC = () => {
 
   return (
     <PageContainer title="在线接口开放平台">
+
+      <Space style={{marginBottom: 16}}>
+        <Search
+          placeholder="搜索接口"
+          allowClear
+          enterButton="搜索"
+          size="middle"
+          onSearch={handleSearch}
+        />
+      </Space>
 
       <List
         className="my-list"

@@ -16,6 +16,12 @@ export default [
     component: './Help'
   },
   {
+    path: '/table',
+    name: '帮助文档',
+    icon: 'crown',
+    component: './Table'
+  },
+  {
     path: '/admin',
     name: '管理页',
     icon: 'crown',

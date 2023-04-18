@@ -1,15 +1,13 @@
 import { PageContainer } from '@ant-design/pro-components';
 import React, { useEffect, useState } from 'react';
-import {Button, Card, Descriptions, Form, message, Input, Space, Divider} from 'antd';
-import {
-  invokeInterfaceInfoUsingPOST,
-} from '@/services/flyapi-backend/interfaceInfoController';
+import {Button, Card, Descriptions, message, Space, Divider} from 'antd';
 import { useParams } from '@@/exports';
 import ReactJson from "react-json-view";
 import {addUserInterfaceInfoCountUsingPOST} from "@/services/flyapi-backend/userInterfaceInfoController";
 import {toNumber} from "lodash";
 import {getInterfaceInfoByIdUsingGET1} from "@/services/flyapi-backend/interfaceInfoInvokeController";
-
+import VanillaJSONEditor from "@/components/JsonEditor/VanillaJSONEditor";
+import {invokeInterfaceInfoUsingPOST} from "@/services/flyapi-backend/interfaceInfoController";
 
 
 /**
@@ -20,10 +18,15 @@ import {getInterfaceInfoByIdUsingGET1} from "@/services/flyapi-backend/interface
 
 
 const Index: React.FC = () => {
+  // @ts-ignore
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<API.InterfaceInfoInvokeVO>();
   const [invokeRes, setInvokeRes] = useState<any>();
   const [invokeLoading, setInvokeLoading] = useState(false);
+  const [content, setContent] = useState<JSONContent>({
+    json: {},
+    text: undefined
+  });
 
   const params = useParams();
 
@@ -38,6 +41,11 @@ const Index: React.FC = () => {
         id: Number(params.id),
       });
       setData(res.data);
+      setContent({
+        json: res.data&&res.data.requestParams ? JSON.parse(res.data.requestParams): {},
+        text: res.data ? res.data.requestParams : undefined,
+      })
+
     } catch (error: any) {
       message.error('请求失败，' + error.message);
     }
@@ -55,16 +63,22 @@ const Index: React.FC = () => {
     }
     setInvokeLoading(true);
     try {
-      const res = await invokeInterfaceInfoUsingPOST({
-        id: params.id,
-        ...values,
+      const res:API.BaseResponseobject = await invokeInterfaceInfoUsingPOST({
+        id: toNumber(params.id),
+        userRequestParams: content.text,
       });
+      console.log("请求结果：", res.data);
+        // @ts-ignore
       setInvokeRes(JSON.parse(res.data));
       message.success('请求成功');
     } catch (error: any) {
       message.error('操作失败，' + error.message);
     }
     setInvokeLoading(false);
+    const obj = {
+      userRequestParams : content.text,
+    }
+    console.log(obj);
   };
 
   const addInvoke = async (values: number) =>{
@@ -73,7 +87,10 @@ const Index: React.FC = () => {
       interfaceInfoId: toNumber(params.id),
       count: values,
     });
-    await loadData();
+    const res = await getInterfaceInfoByIdUsingGET1({
+      id: Number(params.id),
+    });
+    setData(res.data);
     message.success("购买成功")
   }
 
@@ -86,7 +103,7 @@ const Index: React.FC = () => {
             <Descriptions.Item label="描述">{data.description}</Descriptions.Item>
             <Descriptions.Item label="请求地址">{data.url}</Descriptions.Item>
             <Descriptions.Item label="请求方法">{data.method}</Descriptions.Item>
-            <Descriptions.Item label="请求参数">{data.requestParams}</Descriptions.Item>
+            <Descriptions.Item label="请求参数"><ReactJson src={JSON.parse(data.requestParams)}/></Descriptions.Item>
             <Descriptions.Item label="请求头">{data.requestHeader}</Descriptions.Item>
             <Descriptions.Item label="响应头">{data.responseHeader}</Descriptions.Item>
             <Descriptions.Item label="创建时间">{data.createTime}</Descriptions.Item>
@@ -110,16 +127,18 @@ const Index: React.FC = () => {
       </Card>
       <Divider />
       <Card title="在线测试">
-        <Form name="invoke" layout="vertical" onFinish={onFinish}>
-          <Form.Item label="请求参数" name="userRequestParams">
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item wrapperCol={{ span: 16 }}>
-            <Button type="primary" htmlType="submit">
-              调用
-            </Button>
-          </Form.Item>
-        </Form>
+        <h2>Editor</h2>
+        <div className="my-editor">
+          <VanillaJSONEditor
+            content={content}
+            onChange={setContent}
+          />
+        </div>
+
+        <Button type="primary" onClick={onFinish}>
+          调用
+        </Button>
+
       </Card>
       <Divider />
       <Card title="返回结果" loading={invokeLoading}>
