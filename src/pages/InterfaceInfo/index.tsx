@@ -2,7 +2,6 @@ import { PageContainer } from '@ant-design/pro-components';
 import React, { useEffect, useState } from 'react';
 import {Button, Card, Descriptions, Form, message, Input, Space, Divider} from 'antd';
 import {
-  getInterfaceInfoByIdUsingGET,
   invokeInterfaceInfoUsingPOST,
 } from '@/services/flyapi-backend/interfaceInfoController';
 import { useParams } from '@@/exports';
