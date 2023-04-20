@@ -193,7 +193,7 @@ declare namespace API {
     demo?: string;
     description?: string;
     id?: number;
-    leftNum: number;
+    leftNum?: number;
     method?: string;
     name?: string;
     requestBody?: string;
@@ -627,9 +627,13 @@ declare namespace API {
 
   type UserVO = {
     createTime?: string;
+    gender?: number;
     id?: number;
     totalNum?: number;
+    updateTime?: string;
     userAccount?: string;
+    userAvatar?: string;
+    userName?: string;
     userRole?: string;
   };
 

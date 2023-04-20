@@ -1,11 +1,10 @@
 import { PageContainer } from '@ant-design/pro-components';
 import React, { useEffect, useState } from 'react';
-import {Button, Card, Descriptions, message, Space, Divider, Form, Input} from 'antd';
+import {Button, Card, Descriptions, message, Space, Divider} from 'antd';
 import { useParams } from '@@/exports';
 import ReactJson from "react-json-view";
 import {addUserInterfaceInfoCountUsingPOST} from "@/services/flyapi-backend/userInterfaceInfoController";
 import {toNumber} from "lodash";
-import VanillaJSONEditorForm from "@/components/JsonEditor/VanillaJSONEditorForm";
 import {
   getInterfaceInfoVOByIdUsingGET,
   invokeInterfaceInfoUsingPOST
@@ -114,6 +113,7 @@ const Index: React.FC = () => {
     message.success("购买成功")
   }
 
+  // @ts-ignore
   return (
     <PageContainer title="查看接口文档">
       <Card>
@@ -129,10 +129,10 @@ const Index: React.FC = () => {
             <Descriptions.Item label="创建时间">{data.createTime}</Descriptions.Item>
             <Descriptions.Item label="更新时间">{data.updateTime}</Descriptions.Item>
             <Descriptions.Item label="剩余调用次数">
-              {(data.leftNum <= 50) ? <p style={{color: "red"}}>{data.leftNum}</p> :  <p style={{color: "green"}}>{data.leftNum}</p>}
+              {(data.leftNum && data.leftNum <= 50) ? <p style={{color: "red"}}>{data.leftNum}</p> :  <p style={{color: "green"}}>{data.leftNum}</p>}
             </Descriptions.Item>
             <Descriptions.Item label="请求示例">
-              <ReactJson name={false} src={Json}/>
+              {React.createElement(ReactJson, { name: false, src: Json })}
             </Descriptions.Item>
           </Descriptions>
         ) : (
@@ -178,7 +178,7 @@ const Index: React.FC = () => {
       </Card>
       <Divider />
       <Card title="返回结果" loading={invokeLoading}>
-        <ReactJson src={invokeRes}/>
+        {React.createElement(ReactJson, { src: {invokeRes} })}
       </Card>
     </PageContainer>
   );

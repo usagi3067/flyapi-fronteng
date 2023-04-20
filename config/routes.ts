@@ -39,7 +39,7 @@ export default [
     access: 'canUser',
     routes: [
       {name: '个人中心', icon: 'table', path: '/account/center', component: './Account/Center'},
-      {name: '个人设置', icon: 'table', path: '/account/setting', component: './Account/Setting'},
+      {name: '个人设置', icon: 'table', path: '/account/settings', component: './Account/Settings'},
     ],
   },
 

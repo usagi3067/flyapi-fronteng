@@ -16,9 +16,8 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import { history, useModel } from '@umijs/max';
-import {Alert, Col, Divider, message, Space, Tabs} from 'antd';
+import {Alert,  Divider, message, Tabs} from 'antd';
 import React, { useState } from 'react';
-import { flushSync } from 'react-dom';
 import styles from './index.less';
 import { userLoginUsingPOST } from '@/services/flyapi-backend/userController';
 

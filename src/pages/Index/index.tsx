@@ -31,7 +31,7 @@ const Index: React.FC = () => {
   };
   const handleSearch = (value: string) => {
     setSearchKeyword(value);
-    loadData(1, 5, value);
+    loadData(1, 5, searchKeyword);
   };
 
   useEffect(() => {

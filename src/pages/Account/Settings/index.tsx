@@ -2,7 +2,6 @@ import type { ProDescriptionsActionType } from '@ant-design/pro-components';
 import { ProDescriptions } from '@ant-design/pro-components';
 import { Button } from 'antd';
 import { useRef } from 'react';
-import {useModel} from "@@/exports";
 import {getLoginUserAKSKUsingGET} from "@/services/flyapi-backend/userController";
 
 export default () => {
