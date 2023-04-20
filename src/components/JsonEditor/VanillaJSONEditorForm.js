@@ -1,12 +1,9 @@
 import { JSONEditor } from "vanilla-jsoneditor";
 import { useEffect, useRef } from "react";
 import "./VanillaJSONEditor.css";
-import { Form } from "antd";
 
-const FormItem = Form.Item;
-
-function SvelteJSONEditor(props) {
-  const { getFieldDecorator, formItemProps, onChange, value } = props;
+export default function SvelteJSONEditor(props) {
+  const {value, onChange, content} = props;
   const refContainer = useRef(null);
   const refEditor = useRef(null);
 
@@ -18,12 +15,6 @@ function SvelteJSONEditor(props) {
       props: {
         ...props,
         mode: "text",
-        value,
-      },
-      onChange: (newValue) => {
-        if (onChange) {
-          onChange(newValue);
-        }
       },
     });
 
@@ -35,30 +26,15 @@ function SvelteJSONEditor(props) {
         refEditor.current = null;
       }
     };
-  }, []);
+  }, [content]);
 
   // update props
   useEffect(() => {
     if (refEditor.current) {
       console.log("update props", props);
       refEditor.current.updateProps(props);
-      refEditor.current.setValue(value);
     }
-  }, [props, value]);
+  }, [props]);
 
   return <div className="vanilla-jsoneditor-react" ref={refContainer}></div>;
 }
-
-const FormJSONEditor = ({ form, name, ...rest }) => {
-  const { getFieldDecorator } = form;
-
-  return (
-    <FormItem>
-      {getFieldDecorator(name, {
-        initialValue: "",
-      })(<SvelteJSONEditor {...rest} />)}
-    </FormItem>
-  );
-};
-
-export default Form.create()(FormJSONEditor);

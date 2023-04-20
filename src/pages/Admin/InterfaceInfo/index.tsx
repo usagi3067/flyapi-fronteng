@@ -7,7 +7,7 @@ import {
   ProTable,
 } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Button, Drawer, message } from 'antd';
+import {Button, Drawer, Input, message} from 'antd';
 import React, { useRef, useState } from 'react';
 import type { SortOrder } from 'antd/es/table/interface';
 import {
@@ -188,13 +188,24 @@ const TableList: React.FC = () => {
       valueType: 'text',
     },
     {
-      title: 'url',
-      dataIndex: 'url',
+      title: '请求基地址&域名',
+      dataIndex: 'baseUrl',
       valueType: 'text',
     },
     {
-      title: '请求参数',
-      dataIndex: 'requestParams',
+      title: '端口',
+      dataIndex: 'port',
+      valueType: 'text',
+    },
+    {
+      title: '请求路径',
+      dataIndex: 'path',
+      valueType: 'text',
+    },
+
+    {
+      title: '请求体',
+      dataIndex: 'requestBody',
       valueType: 'jsonCode',
     },
     {
@@ -206,6 +217,14 @@ const TableList: React.FC = () => {
       title: '响应头',
       dataIndex: 'responseHeader',
       valueType: 'jsonCode',
+    },
+    {
+      title: '请求示例',
+      dataIndex: 'demo',
+      valueType: 'jsonCode',
+      renderFormItem: (item, { defaultRender }) => {
+        return <Input placeholder="请正确填写Json格式示例， 否则接口无法上线，可忽略空白" />;
+      },
     },
     {
       title: '状态',
@@ -260,7 +279,7 @@ const TableList: React.FC = () => {
           key="config"
           danger
           onClick={() => {
-            handleRemove(record);
+            handleRemove([record]);
           }}
         >
           删除

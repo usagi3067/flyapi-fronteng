@@ -9,3 +9,11 @@ export async function listTopInvokeInterfaceInfoUsingGET(options?: { [key: strin
     ...(options || {}),
   });
 }
+
+/** listTopInvokeUser GET /api/analysis/top/user/invoke */
+export async function listTopInvokeUserUsingGET(options?: { [key: string]: any }) {
+  return request<API.BaseResponseListUserVO>('/api/analysis/top/user/invoke', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}

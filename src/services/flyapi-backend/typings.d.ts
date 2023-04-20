@@ -122,12 +122,12 @@ declare namespace API {
     id?: number;
   };
 
-  type getInterfaceInfoByIdUsingGET1Params = {
+  type getInterfaceInfoByIdUsingGETParams = {
     /** id */
     id?: number;
   };
 
-  type getInterfaceInfoByIdUsingGETParams = {
+  type getInterfaceInfoVOByIdUsingGETParams = {
     /** id */
     id?: number;
   };
@@ -152,110 +152,127 @@ declare namespace API {
   };
 
   type InterfaceInfo = {
+    baseUrl?: string;
     createTime?: string;
+    demo?: string;
     description?: string;
     id?: number;
     isDelete?: number;
     method?: string;
     name?: string;
+    path?: string;
+    port?: number;
+    requestBody?: string;
     requestHeader?: string;
-    requestParams?: string;
     responseHeader?: string;
     status?: number;
     updateTime?: string;
-    url?: string;
     userId?: number;
   };
 
   type InterfaceInfoAddRequest = {
+    baseUrl?: string;
+    demo?: string;
     description?: string;
     method?: string;
     name?: string;
+    path?: string;
+    port?: number;
+    requestBody?: string;
     requestHeader?: string;
-    requestParams?: string;
     responseHeader?: string;
-    url?: string;
   };
 
   type InterfaceInfoInvokeRequest = {
     id?: number;
-    userRequestParams?: string;
+    requestBody?: string;
   };
 
   type InterfaceInfoInvokeVO = {
     createTime?: string;
+    demo?: string;
     description?: string;
     id?: number;
-    leftNum?: number;
+    leftNum: number;
     method?: string;
     name?: string;
+    requestBody?: string;
     requestHeader?: string;
-    requestParams: string;
     responseHeader?: string;
     status?: number;
     updateTime?: string;
     url?: string;
-    userId?: number;
   };
 
   type InterfaceInfoUpdateRequest = {
+    baseUrl?: string;
+    demo?: string;
     description?: string;
     id?: number;
     method?: string;
     name?: string;
+    path?: string;
+    port?: number;
     requestHeader?: string;
     requestParams?: string;
     responseHeader?: string;
-    status?: number;
-    url?: string;
   };
 
   type InterfaceInfoVO = {
+    baseUrl?: string;
     createTime?: string;
+    demo?: string;
     description?: string;
     id?: number;
     isDelete?: number;
     method?: string;
     name?: string;
+    path?: string;
+    port?: number;
+    requestBody?: string;
     requestHeader?: string;
-    requestParams?: string;
     responseHeader?: string;
     status?: number;
     totalNum?: number;
     updateTime?: string;
-    url?: string;
     userId?: number;
   };
 
   type listInterfaceInfoByPageUsingGETParams = {
+    baseUrl?: string;
     current?: number;
+    demo?: string;
     description?: string;
     id?: number;
     method?: string;
     name?: string;
     pageSize?: number;
+    path?: string;
+    port?: number;
     requestHeader?: string;
     responseHeader?: string;
     sortField?: string;
     sortOrder?: string;
     status?: number;
-    url?: string;
     userId?: number;
   };
 
   type listInterfaceInfoUsingGETParams = {
+    baseUrl?: string;
     current?: number;
+    demo?: string;
     description?: string;
     id?: number;
     method?: string;
     name?: string;
     pageSize?: number;
+    path?: string;
+    port?: number;
     requestHeader?: string;
     responseHeader?: string;
     sortField?: string;
     sortOrder?: string;
     status?: number;
-    url?: string;
     userId?: number;
   };
 
@@ -610,12 +627,9 @@ declare namespace API {
 
   type UserVO = {
     createTime?: string;
-    gender?: number;
     id?: number;
-    updateTime?: string;
+    totalNum?: number;
     userAccount?: string;
-    userAvatar?: string;
-    userName?: string;
     userRole?: string;
   };
 
