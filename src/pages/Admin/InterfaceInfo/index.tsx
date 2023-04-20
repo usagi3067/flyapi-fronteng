@@ -428,7 +428,10 @@ const TableList: React.FC = () => {
           handleModalVisible(false);
         }}
         onSubmit={(values) => {
-          handleAdd(values);
+            return new Promise((resolve) => {
+              handleAdd(values);
+              resolve();
+          });
         }}
         visible={createModalVisible}
       />
