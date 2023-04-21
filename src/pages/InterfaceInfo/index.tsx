@@ -89,7 +89,7 @@ const Index: React.FC = () => {
       setInvokeRes(JSON.parse(res.data));
       message.success('请求成功');
     } catch (error: any) {
-      message.error('操作失败，' + error.message);
+      message.error('操作失败，调用次数不足或者资源可能已经消失，请联系管理员');
     }
     const res = await getInterfaceInfoVOByIdUsingGET({
       id: Number(params.id),
@@ -163,18 +163,6 @@ const Index: React.FC = () => {
         <Button type="primary" onClick={onFinish}>
           调用
         </Button>
-
-        {/*<Form name="invoke" layout="vertical" onFinish={onFinish}>*/}
-        {/*  <Form.Item label="请求参数" name="userRequestParams">*/}
-        {/*    /!*<VanillaJSONEditorForm content={content} onChange={setContent}/>*!/*/}
-        {/*  </Form.Item>*/}
-        {/*  <Form.Item wrapperCol={{ span: 16 }}>*/}
-        {/*    <Button type="primary" htmlType="submit">*/}
-        {/*      调用*/}
-        {/*    </Button>*/}
-        {/*  </Form.Item>*/}
-        {/*</Form>*/}
-
       </Card>
       <Divider />
       <Card title="返回结果" loading={invokeLoading}>
@@ -184,6 +172,4 @@ const Index: React.FC = () => {
   );
 };
 
-
-//
 export default Index;

@@ -77,7 +77,7 @@ const TableList: React.FC = () => {
         ...fields
       });
       hide();
-      message.success('操作成功');
+      message.success('操作成功, 请重新发布接口');
       actionRef.current?.reload();
       return true;
     } catch (error: any) {
@@ -382,6 +382,9 @@ const TableList: React.FC = () => {
         onSubmit={async (value) => {
           const success = await handleUpdate(value);
           if (success) {
+            await offlineInterfaceInfoUsingPOST({
+              id: currentRow?.id
+            });
             handleUpdateModalVisible(false);
             setCurrentRow(undefined);
             if (actionRef.current) {

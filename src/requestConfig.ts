@@ -15,7 +15,7 @@ interface ResponseStructure {
  * @doc https://umijs.org/docs/max/request#配置
  */
 export const requestConfig: RequestConfig = {
-  baseURL: process.env.Node_ENV === 'production' ? 'www.dango1123.shop' :'http://localhost:7529',  //ajax  前端显示静态页面， 动态请求发ajax请求
+  baseURL: process.env.NODE_ENV === 'production' ? 'http://localhost:7529' : 'http://123.249.16.77:7529',  //ajax  前端显示静态页面， 动态请求发ajax请求
   withCredentials: true,
   // 请求拦截器
   requestInterceptors: [

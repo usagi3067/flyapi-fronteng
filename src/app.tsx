@@ -24,6 +24,7 @@ export async function getInitialState(): Promise<{
   }
   let loginUser = undefined;
   try {
+    console.log("当前环境：", process.env.NODE_ENV);
     const res = await getLoginUserUsingGET();
     if (res.data) {
       state.loginUser = res.data;
